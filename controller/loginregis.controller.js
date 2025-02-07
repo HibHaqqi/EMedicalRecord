@@ -25,7 +25,7 @@ class LoginRegisController {
     try {
         const payload = req.body;
         const response = await loginService.adminLogin(payload);
-        res.redirect('/view');
+        res.redirect('/patien');
 
         
     } catch (error) {

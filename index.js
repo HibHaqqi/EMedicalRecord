@@ -11,7 +11,8 @@ app.use(bodyParser.json());
 app.use(express.urlencoded({
   extended :false
 }));
-
+app.set('view engine', 'ejs')
+app.set('views', "./pages") 
 app.use(morgan("dev"))
 
 app.use("/",router);
