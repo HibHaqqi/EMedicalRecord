@@ -3,23 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Login - Medical Record Application</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body>
-    <div class="container mt-5">
-        <h2>Login</h2>
-        <form action="/api/users/v1/login" method="post">
-            <div class="mb-3">
-                <label for="email" class="form-label">Email</label>
-                <input type="email" class="form-control" name="email" required>
-            </div>
-            <div class="mb-3">
-                <label for="password" class="form-label">Password</label>
-                <input type="password" class="form-control" name="password" required>
-            </div>
-            <button type="submit" class="btn btn-primary">Login</button>
-        </form>
-    </div>
+<body class="bg-blue-100 text-blue-900">
+    <header class="bg-blue-500 text-white p-4">
+        <div class="container mx-auto">
+            <h1 class="text-3xl font-bold">Medical Record Application</h1>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4">
+        <section class="bg-white p-6 rounded-lg shadow-md w-full max-w-md mx-auto">
+            <h2 class="text-2xl font-bold mb-4">Login</h2>
+            <form action="/api/users/v1/login" method="post">
+                <div class="mb-4">
+                    <label for="Email" class="block text-sm font-medium mb-1">Email</label>
+                    <input type="text" id="email" name="email" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                </div>
+                <div class="mb-4">
+                    <label for="password" class="block text-sm font-medium mb-1">Password</label>
+                    <input type="password" id="password" name="password" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                </div>
+                <div class="flex justify-center">
+                    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">Login</button>
+                </div>
+            </form>
+        </section>
+    </main>
+
+    <footer class="bg-blue-500 text-white p-4 mt-8">
+        <div class="container mx-auto">
+            <p>&copy; 2023 Medical Record Application. All rights reserved.</p>
+        </div>
+    </footer>
 </body>
 </html>
