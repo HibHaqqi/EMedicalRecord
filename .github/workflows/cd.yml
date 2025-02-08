@@ -24,6 +24,6 @@ jobs:
             git status
             export NVM_DIR=~/.nvm
             source ~/.nvm/nvm.sh
-            npm install 
+            npm install
             
             
