@@ -2,7 +2,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Pasiens', {
+    await queryInterface.createTable('Patients', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -16,38 +16,44 @@ module.exports = {
         references: {
           model: "Admins",
         key: 'id'}
+
       },
-      no_KTP: {
+      nik: {
         type: Sequelize.STRING
       },
       name: {
         type: Sequelize.STRING
       },
-      umur: {
+      age: {
         type: Sequelize.INTEGER
       },
-      alamat: {
+      address: {
         type: Sequelize.STRING
       },
       phone: {
         type: Sequelize.STRING
       },
-      keluhan: {
+      symptoms: {
         type: Sequelize.STRING
       },
-      obat: {
+      medicine: {
+        allowNull: true,
         type: Sequelize.STRING
       },
-      date_suntik: {
+      injection_date: {
+        allowNull: true,
         type: Sequelize.DATE
       },
       HPHT: {
+        allowNull: true,
         type: Sequelize.DATE
       },
-      hasil_periksa_hamil: {
+      pragnancy_age: {
+        allowNull: true,
         type: Sequelize.STRING
       },
       note: {
+        allowNull: true,
         type: Sequelize.STRING
       },
       createdAt: {
@@ -61,6 +67,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Pasiens');
+    await queryInterface.dropTable('Patients');
   }
 };
