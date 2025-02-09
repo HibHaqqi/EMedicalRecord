@@ -51,6 +51,20 @@ async deletePatients(req,res){
     }
   }
 }
+async getRecord(req,res){
+  try {
+    const payload = req.query
+    const GetRecord = await patiensService.getRecord(payload)
+    //res.status(200).json({ status: "success", data: GetRecord })
+    res.render("summpasiens", { record: GetRecord });
+  } catch (error) {
+    res.status(400).json({
+      status: "failed",
+      message: error.message,
+      stack: error,
+    });
+  }
+  }
 }
 
 

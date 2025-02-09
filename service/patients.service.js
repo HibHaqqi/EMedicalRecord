@@ -10,7 +10,7 @@ class PatientService{
         age,
         address,
         phone,
-        symtoms,
+        symptoms,
         medicine,
         injection_date,
         HPHT,
@@ -25,7 +25,7 @@ class PatientService{
                 age,
                 address,
                 phone,
-                symtoms,
+                symptoms,
                 medicine,
                 injection_date,
                 HPHT,
@@ -95,6 +95,32 @@ class PatientService{
     } catch (error) {
       throw new Error("Data tidak berhasil dihapus");
     }
+    }
+    async getRecord(payload){
+        const patients = await Patient.findAll(); // Fetch all patients
+        const visitCounts = {};
+    
+        // Count visits based on NIK
+        patients.forEach(patient => {
+            if (visitCounts[patient.nik]) {
+                visitCounts[patient.nik].count += 1; // Increment count if NIK already exists
+            } else {
+                visitCounts[patient.nik] = {
+                    name: patient.name,
+                    age: patient.age,
+                    address: patient.address,
+                    count: 1 // Initialize count
+                };
+            }
+        });
+    
+        // Convert visitCounts object to an array
+        const result = Object.keys(visitCounts).map(nik => ({
+            nik,
+            ...visitCounts[nik]
+        }));
+    
+        return result; // Return the aggregated result
     }
 }
 
