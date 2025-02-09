@@ -36,7 +36,20 @@ async editPatients(req,res){
 
 }
 async deletePatients(req,res){
-
+  try {
+    
+    const payload = req.params.id
+    const deletePatient = await patiensService.deletePatient(payload);
+    res
+      .status(201)
+      .json({ message: "record berhasil dihapus", data: deletePatient });
+  } catch (error) {
+    if (error.message === "Record not found") {
+      res.status(400).json({ message: "Record not found" });
+    } else {
+      res.status(409).json({ message: error.message, stack: error });
+    }
+  }
 }
 }
 

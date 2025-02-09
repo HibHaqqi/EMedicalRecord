@@ -45,7 +45,7 @@ class PatientService{
             age,
             address,
             phone,
-            symtoms,
+            symptoms,
             medicine,
             injection_date,
             HPHT,
@@ -61,7 +61,7 @@ class PatientService{
                     age,
                     address,
                     phone,
-                    symtoms,
+                    symptoms,
                     medicine,
                     injection_date,
                     HPHT,
@@ -81,7 +81,20 @@ class PatientService{
         }
     }
     async deletePatient(payload){
-        
+        const  id  = payload;
+    console.log(id);
+    try {
+      
+      const deletedPatient = await Patient.destroy({
+        where: { id: id }, // Match by the 'id' field
+      });
+      if (deletedPatient === 0) {
+        throw new Error("Record not found");
+      }
+      return deletedPatient;
+    } catch (error) {
+      throw new Error("Data tidak berhasil dihapus");
+    }
     }
 }
 

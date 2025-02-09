@@ -5,5 +5,5 @@ const patientsController = new PatientsController();
 
 patients.post('/v1/new',patientsController.newPatient);
 patients.put('/v1/edit/:id',patientsController.editPatients);
-patients.post('/v1/delete',patientsController.deletePatients);
+patients.delete('/v1/delete/:id',patientsController.deletePatients);
 module.exports = patients;
