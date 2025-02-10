@@ -8,8 +8,18 @@
 </head>
 <body class="bg-blue-100 text-blue-900">
     <header class="bg-blue-500 text-white p-4">
-        <div class="container mx-auto">
+        <div class="container mx-auto flex justify-between items-center">
             <h1 class="text-3xl font-bold">Medical Record Application</h1>
+            <nav>
+                <ul class="flex space-x-4">
+                    <li>
+                        <a href="/login" class="text-white hover:underline">Login</a>
+                    </li>
+                    <li>
+                        <a href="/register" class="text-white hover:underline">Register</a>
+                    </li>
+                </ul>
+            </nav>
         </div>
     </header>
 
@@ -17,9 +27,12 @@
         <section class="bg-white p-6 rounded-lg shadow-md">
             <h2 class="text-2xl font-bold mb-4">Welcome to the Medical Record Application</h2>
             <p class="mb-4">This application is designed to help healthcare providers manage patient medical records efficiently.</p>
-            <div class="flex justify-center">
-                <a href="/patients" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">View Patients</a>
-            </div>
+            <p class="mb-4">
+                If you do not have an account, please 
+                <a href="/register" class="text-blue-500 hover:underline">register</a> 
+                to get started. 
+                <a href="/login" class="text-blue-500 hover:underline">Click here to login</a>.
+            </p>
         </section>
     </main>
 

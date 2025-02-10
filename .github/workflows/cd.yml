@@ -25,5 +25,7 @@ jobs:
             export NVM_DIR=~/.nvm
             source ~/.nvm/nvm.sh
             npm install
+            pm2 stop emedic
+            pm2 restart emedic
             
             

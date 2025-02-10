@@ -8,9 +8,10 @@ class LoginRegisController {
     try {
       const payload = req.body;
       const newAdmin = await regisService.regisAdmin(payload);
-      res
+      res.redirect('/patients');
+      /*res
         .status(201)
-        .json({ message: "User berhasil dibuat", data: newAdmin });
+        .json({ message: "User berhasil dibuat", data: newAdmin });*/
     } catch (error) {
       if (error.message === "Data tidak lengkap") {
         res.status(400).json({ message: "Data tidak lengkap" });

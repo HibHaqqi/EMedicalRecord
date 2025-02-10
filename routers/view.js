@@ -10,6 +10,9 @@ pages.get("/", (req, res) => {
   pages.get("/login", (req, res) => {
     res.render("login");
   });
+  pages.get("/register", (req, res) => {
+    res.render("register");
+  });
 
   pages.get("/patients", async (req, res) => {
     const patientsController = new PatientsController();
