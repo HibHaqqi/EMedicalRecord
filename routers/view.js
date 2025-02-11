@@ -1,7 +1,7 @@
 const express = require("express");
 const pages = express.Router();
 const PatientsController = require("../controller/patients.controller");
-const { isAuthenticated } = require("../service/login.service");
+const LoginService = require("../service/login.service");
 
 
 
@@ -15,7 +15,7 @@ pages.get("/", (req, res) => {
     res.render("register");
   });
 
-  pages.get("/patients", /*isAuthenticated*/async (req, res) => {
+  pages.get("/patients", LoginService.isAuthenticated, async (req, res) => {
     // const admin_id = req.session.passport.user;
     const patientsController = new PatientsController();
     try {
@@ -24,6 +24,18 @@ pages.get("/", (req, res) => {
     } catch (error) {
         res.status(500).send("Error retrieving patient records");
     }
+    pages.get("/logout", (req, res) => {
+      req.logout((err) => {
+        if (err) {
+          // handle the error
+          console.log(err);
+          return res.status(500).json({ error: "Error logging out" });
+        }
+        
+        res.redirect("/");
+      });
+    });
+  
 });
 
   module.exports = pages;
