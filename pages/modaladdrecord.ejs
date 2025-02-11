@@ -1,0 +1,94 @@
+<!-- Modal Background -->
+<div id="modalAddRecord" class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center hidden">
+<div class="bg-white rounded-lg shadow-lg w-full max-w-4xl p-6">
+    <!-- Modal Header -->
+    <div class="flex justify-between items-center border-b pb-3">
+        <h2 class="text-lg font-semibold">Add Medical Record</h2>
+        <button onclick="closeModal()" class="text-gray-500 hover:text-gray-800 text-xl">&times;</button>
+    </div>
+
+    <!-- Modal Body with Responsive Layout -->
+    <div class="p-4 grid grid-cols-1 md:grid-cols-2 gap-6">
+        <form action="/api/patients/v1/new" method="POST" class="w-full grid grid-cols-1 md:grid-cols-2 gap-4">
+            <!-- Left Column -->
+            <div class="space-y-4">
+                <div>
+                    <label for="nik" class="block text-sm font-medium text-gray-700">NIK</label>
+                    <input type="text" id="nik" name="nik" class="w-full p-2 border rounded focus:ring focus:ring-blue-300" required>
+                </div>
+
+                <div>
+                    <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+                    <input type="text" id="name" name="name" class="w-full p-2 border rounded focus:ring focus:ring-blue-300" required>
+                </div>
+
+                <div>
+                    <label for="age" class="block text-sm font-medium text-gray-700">Age</label>
+                    <input type="number" id="age" name="age" class="w-full p-2 border rounded focus:ring focus:ring-blue-300">
+                </div>
+
+                <div>
+                    <label for="address" class="block text-sm font-medium text-gray-700">Address</label>
+                    <input type="text" id="address" name="address" class="w-full p-2 border rounded focus:ring focus:ring-blue-300">
+                </div>
+
+                <div>
+                    <label for="phone" class="block text-sm font-medium text-gray-700">Phone</label>
+                    <input type="text" id="phone" name="phone" class="w-full p-2 border rounded focus:ring focus:ring-blue-300">
+                </div>
+            </div>
+
+            <!-- Right Column -->
+            <div class="space-y-4">
+                <div>
+                    <label for="symptoms" class="block text-sm font-medium text-gray-700">Symptoms</label>
+                    <input type="text" id="symptoms" name="symptoms" class="w-full p-2 border rounded focus:ring focus:ring-blue-300">
+                </div>
+
+                <div>
+                    <label for="medicine" class="block text-sm font-medium text-gray-700">Medicine</label>
+                    <input type="text" id="medicine" name="medicine" class="w-full p-2 border rounded focus:ring focus:ring-blue-300">
+                </div>
+
+                <div>
+                    <label for="injection_date" class="block text-sm font-medium text-gray-700">Injection Date</label>
+                    <input type="date" id="injection_date" name="injection_date" class="w-full p-2 border rounded focus:ring focus:ring-blue-300">
+                </div>
+
+                <div>
+                    <label for="HPHT" class="block text-sm font-medium text-gray-700">HPHT</label>
+                    <input type="date" id="HPHT" name="HPHT" class="w-full p-2 border rounded focus:ring focus:ring-blue-300">
+                </div>
+
+                <div>
+                    <label for="pragnancy_age" class="block text-sm font-medium text-gray-700">Pregnancy Age</label>
+                    <input type="number" id="pragnancy_age" name="pragnancy_age" class="w-full p-2 border rounded focus:ring focus:ring-blue-300">
+                </div>
+
+                <div>
+                    <label for="note" class="block text-sm font-medium text-gray-700">Note</label>
+                    <textarea id="note" name="note" class="w-full p-2 border rounded focus:ring focus:ring-blue-300"></textarea>
+                </div>
+            </div>
+                <!-- Modal Footer -->
+    <div class="flex justify-end space-x-2 mt-4">
+        <button type="button" onclick="closeModal()" class="px-4 py-2 bg-gray-300 rounded">Cancel</button>
+        <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded">Add Record</button>
+    </div>
+        </form>
+    </div>
+
+    
+</div>
+</div>
+
+<!-- Modal Script -->
+<script>
+function openModal() {
+    document.getElementById("modalAddRecord").classList.remove("hidden");
+}
+
+function closeModal() {
+    document.getElementById("modalAddRecord").classList.add("hidden");
+}
+</script>
