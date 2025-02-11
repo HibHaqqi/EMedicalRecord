@@ -30,7 +30,16 @@ class LoginRegisController {
 
         
     } catch (error) {
-        res.status(401).json({ error: error.message });
+      if (error.message === "email atau password tidak sesuai") {
+        res.redirect('/');
+        //res.status(400).json({ message: "email atau password tidak sesuai" });
+      } else if (error.message === "email tidak terdaftar") {
+        res.redirect('/');
+        //res.status(409).json({ message: "email tidak terdaftar" });
+      } else {
+        res.redirect('/');
+        //res.status(500).json({ message: error.message });
+      }
     }
   }
 }

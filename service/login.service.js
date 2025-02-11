@@ -6,7 +6,7 @@ class LoginService {
     const { email, password } = payload;
     try {
       if (!email || !password) {
-        throw new Error("data tidak lengkap");
+        throw new Error("email atau password tidak sesuai");
       }
       const user = await Admin.findOne({ where: { email } });
       if (!user) {
@@ -20,6 +20,14 @@ class LoginService {
       }
     } catch (error) {
         throw error;
+    }
+  }
+  static async isAuthenticated(req, res, next) {
+    if (req.isAuthenticated()) {
+      return next();
+    } else {
+      // Redirect to login page or send an error message
+      res.redirect("/");
     }
   }
 }

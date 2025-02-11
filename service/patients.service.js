@@ -3,8 +3,9 @@ const  {Patient} = require('../models')
 
 class PatientService{
     async addPatient(payload){
+        const session = req.session;
+        const admin_id = session.passport.user;
         const {
-        admin_id,
         nik,
         name,
         age,

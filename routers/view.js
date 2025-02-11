@@ -1,6 +1,7 @@
 const express = require("express");
 const pages = express.Router();
 const PatientsController = require("../controller/patients.controller");
+const { isAuthenticated } = require("../service/login.service");
 
 
 
@@ -14,7 +15,8 @@ pages.get("/", (req, res) => {
     res.render("register");
   });
 
-  pages.get("/patients", async (req, res) => {
+  pages.get("/patients", /*isAuthenticated*/async (req, res) => {
+    // const admin_id = req.session.passport.user;
     const patientsController = new PatientsController();
     try {
         const record = await patientsController.getRecord(req, res); // Call the getRecord method
