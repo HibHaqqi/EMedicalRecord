@@ -16,7 +16,7 @@ pages.get("/", (req, res) => {
   });
 
   pages.get("/patients", LoginService.isAuthenticated, async (req, res) => {
-    // const admin_id = req.session.passport.user;
+    
     const patientsController = new PatientsController();
     try {
         const record = await patientsController.getRecord(req, res); // Call the getRecord method

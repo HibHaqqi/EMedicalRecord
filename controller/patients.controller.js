@@ -5,11 +5,11 @@ const patiensService = new PatientService()
 class PatiensController {
 async newPatient(req,res) {
     try {
+    const admin_id = req.session.passport.user;
     const payload = req.body;
-    const addPatient = await patiensService.addPatient(payload);
-    res
-    .status(201)
-    .json({ message: "berhasil menambahkan Patiens", data: addPatient });
+    const addPatient = await patiensService.addPatient(admin_id,payload);
+    res.redirect('/patients')
+    //res.status(201).json({ message: "berhasil menambahkan Patiens", data: addPatient });
 } catch (error) {
         res.status(400).json({
         status: "failed",
