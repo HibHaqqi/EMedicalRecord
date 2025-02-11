@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visit Details</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-blue-100 text-blue-900">
+    <header class="bg-blue-500 text-white p-4">
+        <div class="container mx-auto">
+            <h1 class="text-3xl font-bold">Visit Details</h1>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4">
+        <section class="bg-white p-6 rounded-lg shadow-md">
+            <h2 class="text-2xl font-bold mb-4">Visit Records</h2>
+            <table class="min-w-full border">
+                <thead>
+                    <tr>
+                        <th class="py-2 px-4 border">Date</th>
+                        <th class="py-2 px-4 border">Symptoms</th>
+                        <th class="py-2 px-4 border">Medicine</th>
+                        <th class="py-2 px-4 border">Detail</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% visitRecords.data.forEach(record => { %>
+                        <tr>
+                            <td class="py-2 px-4 border"><%= new Date(record.injection_date).toLocaleDateString() %></td>
+                            <td class="py-2 px-4 border"><%= record.symptoms %></td>
+                            <td class="py-2 px-4 border"><%= record.medicine %></td>
+                            <td class="py-2 px-4 border">
+                                <button class="bg-blue-500 text-white rounded px-4 py-2">Detail</button>
+                            </td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <footer class="bg-blue-500 text-white p-4 mt-8">
+        <p>&copy; 2024 Medical Record Application. All rights reserved.</p>
+    </footer>
+</body>
+</html>

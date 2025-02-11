@@ -123,6 +123,25 @@ class PatientService{
     
         return result; // Return the aggregated result
     }
+    async getRecordVisit(payload){
+        // Fetch all patients with the specified NIK
+    const patients = await Patient.findAll({
+        where: { nik: payload } // Filter by NIK
+    });
+
+    // Check if any records were found
+    if (patients.length === 0) {
+        return {
+            status: "error",
+            message: "No records found for the provided NIK."
+        };
+    }
+
+    return {
+        status: "success",
+        data: patients
+    };
+    }
 }
 
 

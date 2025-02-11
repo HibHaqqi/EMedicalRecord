@@ -34,6 +34,7 @@
                         <th class="py-2 px-4 border">Age</th>
                         <th class="py-2 px-4 border">Address</th>
                         <th class="py-2 px-4 border">Number of Visits</th>
+                        <th class="py-2 px-4 border">Visit Details</th>
                     </tr>
                 </thead>
                 <tbody id="patientTable">
@@ -43,6 +44,10 @@
                             <td class="py-2 px-4 border"><%= patient.age %></td>
                             <td class="py-2 px-4 border"><%= patient.address %></td>
                             <td class="py-2 px-4 border"><%= patient.count %></td>
+                            <td class="py-2 px-4 border">
+                                <a href="/api/patients/v1/record/<%= patient.nik %>" class="bg-blue-500 text-white rounded px-4 py-2">Details</a>
+                            </td>
+                            </td>
                         </tr>
                     <% }) %>
                 </tbody>
@@ -51,7 +56,7 @@
     </main>
 
     <footer class="bg-blue-500 text-white p-4 mt-8">
-        <p>&copy; 2023 Medical Record Application. All rights reserved.</p>
+        <p>&copy; 2024 Medical Record Application. All rights reserved.</p>
     </footer>
 
     <script>

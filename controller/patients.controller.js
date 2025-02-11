@@ -65,6 +65,20 @@ async getRecord(req,res){
     });
   }
   }
+  async getRecordVisit(req,res){
+    try {
+      const payload = req.params.nik;
+      const GetRecord = await patiensService.getRecordVisit(payload)
+      //res.status(200).json({ status: "success", visitRecords: GetRecord })
+      res.render("visitdetail", { visitRecords: GetRecord });
+    } catch (error) {
+      res.status(400).json({
+        status: "failed",
+        message: error.message,
+        stack: error,
+      });
+    }
+    }
 }
 
 
