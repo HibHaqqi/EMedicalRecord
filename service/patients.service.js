@@ -109,8 +109,10 @@ class PatientService{
       throw new Error("Data tidak berhasil dihapus");
     }
     }
-    async getRecord(payload){
-        const patients = await Patient.findAll(); // Fetch all patients
+    async getRecord(payload,userId){
+        const patients = await Patient.findAll({
+            where: { admin_id: userId } // Filter by admin_id
+        });
         const visitCounts = {};
     
         // Count visits based on NIK
@@ -135,10 +137,13 @@ class PatientService{
     
         return result; // Return the aggregated result
     }
-    async getRecordVisit(payload){
+    async getRecordVisit(payload,userId){
         // Fetch all patients with the specified NIK
     const patients = await Patient.findAll({
-        where: { nik: payload } // Filter by NIK
+        where: {
+            admin_id: userId, // Filter by admin_id
+            nik: payload // Filter by NIK
+        } 
     });
 
     // Check if any records were found

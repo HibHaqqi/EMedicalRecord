@@ -66,8 +66,9 @@ async deletePatients(req,res){
 }
 async getRecord(req,res){
   try {
+    const userId = req.session.passport.user;
     const payload = req.query
-    const GetRecord = await patiensService.getRecord(payload)
+    const GetRecord = await patiensService.getRecord(payload,userId)
     //res.status(200).json({ status: "success", data: GetRecord })
     res.render("summpasiens", { record: GetRecord });
   } catch (error) {
@@ -81,7 +82,8 @@ async getRecord(req,res){
   async getRecordVisit(req,res){
     try {
       const payload = req.params.nik;
-      const GetRecord = await patiensService.getRecordVisit(payload)
+      const userId = req.session.passport.user;
+      const GetRecord = await patiensService.getRecordVisit(payload,userId)
       //res.status(200).json({ status: "success", visitRecords: GetRecord })
       res.render("visitdetail", { visitRecords: GetRecord });
     } catch (error) {
