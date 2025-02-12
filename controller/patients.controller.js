@@ -1,3 +1,4 @@
+const { render } = require("ejs");
 const PatientService = require("../service/patients.service")
 
 const patiensService = new PatientService()
@@ -53,9 +54,8 @@ async deletePatients(req,res){
     
     const payload = req.params.id
     const deletePatient = await patiensService.deletePatient(payload);
-    res
-      .status(201)
-      .json({ message: "record berhasil dihapus", data: deletePatient });
+    //res.status(201).json({ message: "record berhasil dihapus", data: deletePatient });
+    res.redirect('/patients')
   } catch (error) {
     if (error.message === "Record not found") {
       res.status(400).json({ message: "Record not found" });
