@@ -23,9 +23,8 @@ async editPatients(req,res){
         const payload = req.body
         const id = req.params.id
         const editPatient = await patiensService.editPatient(payload,id);
-        res
-          .status(201)
-          .json({ message: "berhasil  edit patiens detail", data: editPatient });
+        //res.status(201).json({ message: "berhasil  edit patiens detail", data: editPatient });
+        res.render("editPatient", { patient: editPatient });
       } catch (error) {
         if (error.message === "Patient Not found") {
           res.status(400).json({ message: "Patients Not found" });
@@ -34,6 +33,20 @@ async editPatients(req,res){
         }
       }
 
+}
+async getPatientById(req, res) {
+  try {
+      const id = req.params.id;
+      console.log('Patient ID:', id); // Add this line to log the ID
+      const patientById = await patiensService.getPatientById(id);
+      res.render("editPatient", { patient: patientById });
+  } catch (error) {
+      if (error.message === "Patient not found") {
+          res.status(404).send(error.message);
+      } else {
+          res.status(500).send(error.message);
+      }
+  }
 }
 async deletePatients(req,res){
   try {

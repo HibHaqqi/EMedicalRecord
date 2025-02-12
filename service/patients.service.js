@@ -81,6 +81,18 @@ class PatientService{
             throw new Error("Data tidak lengkap");
         }
     }
+
+    async getPatientById(id) {
+        try {
+            const patient = await Patient.findByPk(id);
+            if (!patient) {
+                throw new Error("Patient not found");
+            }
+            return patient;
+        } catch (error) {
+            throw new Error(error.message); // Re-throw the original error message
+        }
+    }
     async deletePatient(payload){
         const  id  = payload;
     console.log(id);
