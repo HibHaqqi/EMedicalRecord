@@ -24,7 +24,7 @@ async editPatients(req,res){
         const id = req.params.id
         const editPatient = await patiensService.editPatient(payload,id);
         //res.status(201).json({ message: "berhasil  edit patiens detail", data: editPatient });
-        res.render("editPatient", { patient: editPatient });
+        res.redirect('/patients');
       } catch (error) {
         if (error.message === "Patient Not found") {
           res.status(400).json({ message: "Patients Not found" });
