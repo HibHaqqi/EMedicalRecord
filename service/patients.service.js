@@ -28,9 +28,9 @@ class PatientService{
                 phone,
                 symptoms,
                 medicine,
-                injection_date,
-                HPHT,
-                pragnancy_age,
+                injection_date: injection_date || null,
+                HPHT: HPHT || null,
+                pragnancy_age: pragnancy_age || null,
                 note,
             });
             return  addPatiens

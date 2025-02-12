@@ -20,16 +20,20 @@
                 <table class="min-w-full border">
                     <thead>
                         <tr>
-                            <th class="py-2 px-4 border">Date</th>
+                            <th class="py-2 px-4 border">Date Visit</th>
                             <th class="py-2 px-4 border">Symptoms</th>
                             <th class="py-2 px-4 border">Medicine</th>
                             <th class="py-2 px-4 border">Details</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <% visitRecords.data.forEach(record => { %>
+                        <% 
+                        // Sort visit records by date create (oldest to newest)
+                        const sortedRecords = visitRecords.data.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+                        sortedRecords.forEach(record => { 
+                        %>
                             <tr>
-                                <td class="py-2 px-4 border"><%= new Date(record.injection_date).toLocaleDateString() %></td>
+                                <td class="py-2 px-4 border"><%= new Date(record.createdAt).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }) %></td>
                                 <td class="py-2 px-4 border"><%= record.symptoms %></td>
                                 <td class="py-2 px-4 border"><%= record.medicine %></td>
                                 <td class="py-2 px-4 border">
