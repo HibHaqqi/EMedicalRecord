@@ -70,7 +70,8 @@ async getRecord(req,res){
     const payload = req.query
     const GetRecord = await patiensService.getRecord(payload,userId)
     //res.status(200).json({ status: "success", data: GetRecord })
-    res.render("summpasiens", { record: GetRecord });
+    return GetRecord
+    //res.render("summpasiens", { record: GetRecord });
   } catch (error) {
     res.status(400).json({
       status: "failed",
@@ -94,6 +95,54 @@ async getRecord(req,res){
       });
     }
     }
+
+    async countTotalVisitDay(req){
+    const userId = req.session.passport.user;
+      // Use let instead of const to allow reassignment
+    let day = parseInt(req.query.day, 10);
+    let month = parseInt(req.query.month, 10);
+    let year = parseInt(req.query.year, 10);
+
+    // If no query parameters are provided, default to today's date
+    if (isNaN(day) || isNaN(month) || isNaN(year)) {
+        const today = new Date();
+        day = today.getDate();
+        month = today.getMonth() + 1; // Months are zero-based in JavaScript
+        year = today.getFullYear();
+    }
+
+    try {
+      const visitCount = await patiensService.countTotalVisitDay(userId,day, month, year);
+      console.log("visitCount from service:", visitCount); // ✅ Debug log
+      return visitCount ?? 0; // ✅ Return 0 instead of undefined
+  } catch (error) {
+      console.error("Error counting visits:", error);
+      return 0; // ✅ Return 0 in case of an error
+  }
+}
+async countTotalVisitMonthly(req){
+  const userId = req.session.passport.user;
+    // Use let instead of const to allow reassignment
+  
+  let month = parseInt(req.query.month, 10);
+  let year = parseInt(req.query.year, 10);
+
+  // If no query parameters are provided, default to today's date
+  if (isNaN(month) || isNaN(year)) {
+      const today = new Date();
+      month = today.getMonth() + 1; // Months are zero-based in JavaScript
+      year = today.getFullYear();
+  }
+
+  try {
+    const visitCountMTD = await patiensService.countTotalVisitMonthly(userId, month, year);
+    console.log("visitCount from service MTD:", visitCountMTD); // ✅ Debug log
+    return visitCountMTD ?? 0; // ✅ Return 0 instead of undefined
+} catch (error) {
+    console.error("Error counting visits:", error);
+    return 0; // ✅ Return 0 in case of an error
+}
+}
 }
 
 

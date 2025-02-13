@@ -1,4 +1,6 @@
 const  {Patient} = require('../models')
+const { Op, fn, col ,literal} = require('sequelize');
+const Sequelize = require('sequelize');
 
 
 class PatientService{
@@ -159,7 +161,52 @@ class PatientService{
         data: patients
     };
     }
+
+
+    async countTotalVisitDay(userId,day, month, year) {
+        try {
+            const visitCount = await Patient.count({
+                where: {
+                    admin_id: userId, 
+                    [Op.and]: [
+                        literal(`EXTRACT(DAY FROM "createdAt") = ${day}`),
+                        literal(`EXTRACT(MONTH FROM "createdAt") = ${month}`),
+                        literal(`EXTRACT(YEAR FROM "createdAt") = ${year}`)
+                    ],
+                },
+            });
+            return visitCount;
+        } catch (error) {
+            console.error("Error counting visits in service:", error);
+            throw error;
+        }
+    }
+    async countTotalVisitMonthly(userId,month, year) {
+        try {
+            const visitCount = await Patient.count({
+                where: {
+                    admin_id: userId, // Filter by user ID
+                    [Op.and]: [
+                        Sequelize.where(fn("EXTRACT", literal("MONTH FROM \"Patient\".\"createdAt\"")), month),
+                        Sequelize.where(fn("EXTRACT", literal("YEAR FROM \"Patient\".\"createdAt\"")), year),
+                    ],
+                    createdAt: {
+                        [Op.between]: [
+                            new Date(year, month - 1, 1), // Start of the month
+                            new Date(), // Current date and time
+                        ],
+                    },
+                },
+            });
+    
+           return visitCount;
+        } catch (error) {
+            console.error("Error counting visits in service:", error);
+            throw error;
+        }
+    }
+
+
+
 }
-
-
 module.exports = PatientService;
