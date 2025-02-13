@@ -94,6 +94,29 @@ async getRecord(req,res){
       });
     }
     }
+
+    async countTotalVisitDay(req,res){
+      // Use let instead of const to allow reassignment
+    let day = parseInt(req.query.day, 10);
+    let month = parseInt(req.query.month, 10);
+    let year = parseInt(req.query.year, 10);
+
+    // If no query parameters are provided, default to today's date
+    if (isNaN(day) || isNaN(month) || isNaN(year)) {
+        const today = new Date();
+        day = today.getDate();
+        month = today.getMonth() + 1; // Months are zero-based in JavaScript
+        year = today.getFullYear();
+    }
+
+    try {
+        const visitCount = await patiensService.countTotalVisitDay(day, month, year);
+        return visitCount; // Ensure this is returned or sent in the response
+    } catch (error) {
+        console.error("Error counting visits:", error);
+        return res.status(500).send('Internal Server Error');
+    }
+}
 }
 
 

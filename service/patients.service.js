@@ -1,4 +1,6 @@
 const  {Patient} = require('../models')
+const { Op, fn, col } = require('sequelize');
+const Sequelize = require('sequelize');
 
 
 class PatientService{
@@ -159,7 +161,30 @@ class PatientService{
         data: patients
     };
     }
+
+
+    async countTotalVisitDay(day,month, year){
+        try {
+            const visitCount = await Patient.count({
+                where: {
+                    createdAt: {
+                        [Op.and]: [
+                            Sequelize.where(fn('EXTRACT', col('createdAt'), 'DAY'), day),
+                            Sequelize.where(fn('EXTRACT', col('createdAt'), 'MONTH'), month),
+                            Sequelize.where(fn('EXTRACT', col('createdAt'), 'YEAR'), year),
+                        ],
+                    },
+                },
+            });
+            return visitCount;
+        } catch (error) {
+            console.error("Error counting visits:", error);
+            throw error; // Rethrow the error for further handling
+        }
+    }
+
+
+
+
 }
-
-
 module.exports = PatientService;
