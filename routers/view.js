@@ -18,17 +18,18 @@ pages.get("/register", (req, res) => {
 pages.get("/patients", LoginService.isAuthenticated, async (req, res) => {
   const patientsController = new PatientsController();
   try {
-      const record = await patientsController.getRecord(req, res); // Call the getRecord method
-      const today = new Date(); // Get today's date
-      const visitcount = await patientsController.countTotalVisitDay(req, res, today); // Pass today's date
-      console.log("Count of visits today:", visitcount); // Debugging line
-      res.render("summpasiens", { record, visitcount }); // Pass the record and visit count to the EJS view
+      const record = await patientsController.getRecord(req, res); // Get patient records
+      console.log("Record from getRecord():", record); // Debugging line
+      const today = new Date();
+      const visitcount = await patientsController.countTotalVisitDay(req, today); // ✅ Remove `res`
+      const visitcountmtd = await patientsController.countTotalVisitMonthly(req, today);
+      //console.log("Data being sent to EJS:", { record, visitCount: visitcount });
+      res.render("summpasiens", { record, visitCount: visitcount || 0,visitCountMTD: visitcountmtd || 0 }); // Default to 0 if undefined
   } catch (error) {
       console.error("Error in /patients route:", error);
       res.status(500).send("Internal Server Error");
   }
 });
-
 /*pages.get("/visit-records/",async(req,res)=>{
 const nik = req.params.nik;
 const patientsController = new PatientsController();
