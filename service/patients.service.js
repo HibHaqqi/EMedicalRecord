@@ -163,18 +163,25 @@ class PatientService{
     }
 
 
-    async countTotalVisitDay(userId,day, month, year) {
+    async countTotalVisitDay(userId, selectedDate) {
         try {
+            // Create start and end dates for the day
+            const startDate = new Date(selectedDate);
+            startDate.setHours(0, 0, 0, 0); // Start of the day
+    
+            const endDate = new Date(selectedDate);
+            endDate.setHours(23, 59, 59, 999); // End of the day
+    
             const visitCount = await Patient.count({
                 where: {
-                    admin_id: userId, 
-                    [Op.and]: [
-                        literal(`EXTRACT(DAY FROM "createdAt") = ${day}`),
-                        literal(`EXTRACT(MONTH FROM "createdAt") = ${month}`),
-                        literal(`EXTRACT(YEAR FROM "createdAt") = ${year}`)
-                    ],
+                    admin_id: userId,
+                    createdAt: {
+                        [Op.gte]: startDate,
+                        [Op.lte]: endDate
+                    }
                 },
             });
+    
             return visitCount;
         } catch (error) {
             console.error("Error counting visits in service:", error);

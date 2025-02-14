@@ -96,30 +96,40 @@ async getRecord(req,res){
     }
     }
 
-    async countTotalVisitDay(req){
-    const userId = req.session.passport.user;
+    async countTotalVisitDay(req) {
+      const userId = req.session.passport.user;
+  
       // Use let instead of const to allow reassignment
-    let day = parseInt(req.query.day, 10);
-    let month = parseInt(req.query.month, 10);
-    let year = parseInt(req.query.year, 10);
-
-    // If no query parameters are provided, default to today's date
-    if (isNaN(day) || isNaN(month) || isNaN(year)) {
-        const today = new Date();
-        day = today.getDate();
-        month = today.getMonth() + 1; // Months are zero-based in JavaScript
-        year = today.getFullYear();
-    }
-
-    try {
-      const visitCount = await patiensService.countTotalVisitDay(userId,day, month, year);
-      console.log("visitCount from service:", visitCount); // ✅ Debug log
-      return visitCount ?? 0; // ✅ Return 0 instead of undefined
-  } catch (error) {
-      console.error("Error counting visits:", error);
-      return 0; // ✅ Return 0 in case of an error
+      let day = parseInt(req.query.day, 10);
+      let month = parseInt(req.query.month, 10);
+      let year = parseInt(req.query.year, 10);
+  
+      // If no query parameters are provided, default to today's date
+      if (isNaN(day) || isNaN(month) || isNaN(year)) {
+          const today = new Date();
+          day = today.getDate();
+          month = today.getMonth() + 1; // Months are zero-based in JavaScript
+          year = today.getFullYear();
+      }
+  
+      // Create a Date object to validate the date
+      const selectedDate = new Date(year, month - 1, day); // month is 0-indexed in JavaScript
+      if (selectedDate.getDate() !== day || selectedDate.getMonth() + 1 !== month || selectedDate.getFullYear() !== year) {
+          console.error("Invalid date provided:", { day, month, year });
+          return 0; // Return 0 for invalid date
+      }
+  
+      try {
+          console.log("Counting visits for:", { day, month, year, userId });
+          const visitCount = await patiensService.countTotalVisitDay(userId, selectedDate);
+          console.log("visitCount from service:", visitCount); // ✅ Debug log
+          return visitCount ?? 0; // ✅ Return 0 instead of undefined
+      } catch (error) {
+          console.error("Error counting visits:", error);
+          return 0; // ✅ Return 0 in case of an error
+      }
   }
-}
+  
 async countTotalVisitMonthly(req){
   const userId = req.session.passport.user;
     // Use let instead of const to allow reassignment
