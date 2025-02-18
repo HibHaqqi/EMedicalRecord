@@ -19,12 +19,13 @@ pages.get("/patients", LoginService.isAuthenticated, async (req, res) => {
   const patientsController = new PatientsController();
   
   try {
-      // Get patient records
-      const record = await patientsController.getRecord(req, res);
-      //console.log("Record from getRecord():", record); // Debugging line
+
 
       // Get the date from query parameters
       const dateParam = req.query.date ? new Date(req.query.date) : new Date();
+      // Get patient records
+      const record = await patientsController.getRecord(req, res);
+      //console.log("Record from getRecord():", record); // Debugging line
       const visitCount = await patientsController.countTotalVisitDay(req, dateParam);
       const visitCountMTD = await patientsController.countTotalVisitMonthly(req, dateParam);
       

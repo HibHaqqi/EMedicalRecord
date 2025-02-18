@@ -64,14 +64,40 @@ async deletePatients(req,res){
     }
   }
 }
-async getRecord(req,res){
+async getRecordSelect(req,res){
   try {
     const userId = req.session.passport.user;
     const payload = req.query
-    const GetRecord = await patiensService.getRecord(payload,userId)
-    //res.status(200).json({ status: "success", data: GetRecord })
-    return GetRecord
-    //res.render("summpasiens", { record: GetRecord });
+    
+      // Use let instead of const to allow reassignment
+      let day = parseInt(req.query.day, 10);
+      let month = parseInt(req.query.month, 10);
+      let year = parseInt(req.query.year, 10);
+  
+      // If no query parameters are provided, default to today's date
+      if (isNaN(day) || isNaN(month) || isNaN(year)) {
+          const today = new Date();
+          day = today.getDate();
+          month = today.getMonth() + 1; // Months are zero-based in JavaScript
+          year = today.getFullYear();
+      }
+  
+      // Create a Date object to validate the date
+      const selectedDate = new Date(year, month - 1, day); // month is 0-indexed in JavaScript
+      if (selectedDate.getDate() !== day || selectedDate.getMonth() + 1 !== month || selectedDate.getFullYear() !== year) {
+          console.error("Invalid date provided:", { day, month, year });
+          return 0; // Return 0 for invalid date
+      }
+    const GetRecord = await patiensService.getRecordSelect(payload,userId,selectedDate)
+    
+        // Check if the request is for JSON or EJS rendering
+        if (req.xhr || req.accepts('json')) {
+          // If it's an AJAX request or expects JSON, send JSON response
+          return res.status(200).json({ status: "success", data: GetRecord });
+      } else {
+          // Otherwise, render the EJS view
+          return GetRecord
+      }
   } catch (error) {
     res.status(400).json({
       status: "failed",
@@ -80,6 +106,22 @@ async getRecord(req,res){
     });
   }
   }
+  async getRecord(req,res){
+    try {
+      const userId = req.session.passport.user;
+      const payload = req.query
+      const GetRecord = await patiensService.getRecord(payload,userId)
+      //res.status(200).json({ status: "success", data: GetRecord })
+      return GetRecord
+      //res.render("summpasiens", { record: GetRecord });
+    } catch (error) {
+      res.status(400).json({
+        status: "failed",
+        message: error.message,
+        stack: error,
+      });
+    }
+    }
   async getRecordVisit(req,res){
     try {
       const payload = req.params.nik;

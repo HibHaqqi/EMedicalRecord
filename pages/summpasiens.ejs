@@ -50,6 +50,16 @@
                 </button>
             </div>
 
+            <!-- Date Selection -->
+            <div class="mb-4">
+                <label for="dateSelection" class="block text-sm font-medium text-gray-700">Select Date:</label>
+                <input type="date" id="dateSelection" class="mt-1 p-2 border rounded w-full">
+            </div>
+
+            <button onclick="filterByDate()" class="bg-blue-500 text-white rounded px-4 py-2 mb-4">
+                Submit
+            </button>
+
             <input type="text" id="search" placeholder="Search by name" class="mb-4 p-2 border rounded w-full" onkeyup="filterPatients()">
             <%- include('modaladdrecord'); %>
             <div class="overflow-x-auto">
@@ -111,6 +121,54 @@
                     rows[i].style.display = nameValue.toLowerCase().indexOf(filter) > -1 ? "" : "none";
                 }
             }
+        }
+
+        function filterByDate() {
+            const selectedDate = document.getElementById('dateSelection').value;
+            if (!selectedDate) {
+                alert("Please select a date."); // Alert if no date is selected
+                return; // Exit if no date is selected
+            }
+
+            // Parse the selected date
+            const dateParts = selectedDate.split('-'); // Format: YYYY-MM-DD
+            const year = dateParts[0];
+            const month = dateParts[1];
+            const day = dateParts[2];
+
+            // Make an AJAX request to fetch records for the selected date
+            fetch(`/api/patients/v1/record?day=${day}&month=${month}&year=${year}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === "success") {
+                        updatePatientTable(data.data); // Update the table with new records
+                    } else {
+                        console.error("Failed to fetch records:", data.message);
+                    }
+                })
+                .catch(error => console.error("Error fetching records:", error));
+        }
+
+        function updatePatientTable(records) {
+            const tableBody = document.getElementById('patientTable');
+            tableBody.innerHTML = ''; // Clear existing rows
+
+            records.forEach(patient => {
+                const row = document.createElement('tr');
+                row.className = "hover:bg-blue-50";
+                row.innerHTML = `
+                    <td class="py-2 px-4 border">${patient.name}</td>
+                    <td class="py-2 px-4 border">${patient.age}</td>
+                    <td class="py-2 px-4 border">${patient.address}</td>
+                    <td class="py-2 px-4 border">${patient.count}</td>
+                    <td class="py-2 px-4 border text-center">
+                        <a href="/api/patients/v1/record/${patient.nik}" class="bg-blue-500 text-white rounded px-4 py-2">
+                            Details
+                        </a>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
         }
     </script>
 
