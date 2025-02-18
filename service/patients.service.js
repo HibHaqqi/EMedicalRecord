@@ -111,6 +111,45 @@ class PatientService{
       throw new Error("Data tidak berhasil dihapus");
     }
     }
+    async getRecordSelect(payload,userId,selectedDate){
+         // Create start and end dates for the day
+         const startDate = new Date(selectedDate);
+         startDate.setHours(0, 0, 0, 0); // Start of the day
+ 
+         const endDate = new Date(selectedDate);
+         endDate.setHours(23, 59, 59, 999); // End of the day
+        const patients = await Patient.findAll({
+            where: { admin_id: userId,
+                createdAt: {
+                    [Op.gte]: startDate,
+                    [Op.lte]: endDate
+                }
+             } // Filter by admin_id
+        });
+        const visitCounts = {};
+    
+        // Count visits based on NIK
+        patients.forEach(patient => {
+            if (visitCounts[patient.nik]) {
+                visitCounts[patient.nik].count += 1; // Increment count if NIK already exists
+            } else {
+                visitCounts[patient.nik] = {
+                    name: patient.name,
+                    age: patient.age,
+                    address: patient.address,
+                    count: 1 // Initialize count
+                };
+            }
+        });
+    
+        // Convert visitCounts object to an array
+        const result = Object.keys(visitCounts).map(nik => ({
+            nik,
+            ...visitCounts[nik]
+        }));
+    
+        return result; // Return the aggregated result
+    }
     async getRecord(payload,userId){
         const patients = await Patient.findAll({
             where: { admin_id: userId } // Filter by admin_id
